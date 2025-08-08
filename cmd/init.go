@@ -8,9 +8,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// For test file
-var name string
-var adjective string
+func executeInit(cmd *cobra.Command, args []string) {
+	var err error
+
+	// Create pizza directory
+	project, err := mraziz.GetBaseProject()
+	if err != nil {
+		panic(err)
+	}
+
+	// Generate
+	err = project.Generate()
+	if err != nil {
+		panic(err)
+	}
+}
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
@@ -20,35 +32,10 @@ var initCmd = &cobra.Command{
 	Run:   executeInit,
 }
 
-func executeInit(cmd *cobra.Command, args []string) {
-	var err error
-
-	// Create pizza directory
-	err = mraziz.CreatePizzaDirectory()
-	if err != nil {
-		panic(err)
-	}
-
-	// Create test file
-	testfile, err := mraziz.GetTestFile(mraziz.TestfileData{
-		Name:      name,
-		Adjective: adjective,
-	})
-	if err != nil {
-		panic(err)
-	}
-	err = testfile.Generate()
-	if err != nil {
-		panic(err)
-	}
-}
-
 func init() {
 	rootCmd.AddCommand(initCmd)
 
 	// Here you will define your flags and configuration settings.
-	initCmd.Flags().StringVar(&name, "test-name", "Parker", "name to write to test file")
-	initCmd.Flags().StringVar(&adjective, "test-adj", "late", "adjective to write to test file")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

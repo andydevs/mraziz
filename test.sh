@@ -9,6 +9,3 @@ mkdir test-directory
 pushd test-directory
 mraziz init
 popd
-
-
-stat test-directory/.pizza
