@@ -1,31 +1,19 @@
 package mraziz
 
-import (
-	"os"
-)
-
-type TestFile struct {
+type TestfileData struct {
 	Name      string
 	Adjective string
 }
 
-func (t *TestFile) CreateFile() {
-	// Get template
+func GetTestFile(content TestfileData) (*FileType[TestfileData], error) {
 	tmpl, err := GetEmbeddedTemplate("test")
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-
-	// Open file for writing
-	outf, err := os.Create(".pizza/test.txt")
-	if err != nil {
-		panic(err)
+	filetype := FileType[TestfileData]{
+		Template: tmpl,
+		Filepath: ".pizza/test.txt",
+		Content:  content,
 	}
-	defer outf.Close()
-
-	// Write data to file
-	err = tmpl.Execute(outf, t)
-	if err != nil {
-		panic(err)
-	}
+	return &filetype, nil
 }

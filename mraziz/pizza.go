@@ -4,9 +4,7 @@ import (
 	"os"
 )
 
-func CreatePizzaDirectory() {
+func CreatePizzaDirectory() error {
 	err := os.Mkdir(".pizza", 0755)
-	if err != nil {
-		panic(err)
-	}
+	return err
 }

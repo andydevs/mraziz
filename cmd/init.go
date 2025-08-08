@@ -21,9 +21,26 @@ var initCmd = &cobra.Command{
 }
 
 func executeInit(cmd *cobra.Command, args []string) {
-	mraziz.CreatePizzaDirectory()
-	test := mraziz.TestFile{Name: name, Adjective: adjective}
-	test.CreateFile()
+	var err error
+
+	// Create pizza directory
+	err = mraziz.CreatePizzaDirectory()
+	if err != nil {
+		panic(err)
+	}
+
+	// Create test file
+	testfile, err := mraziz.GetTestFile(mraziz.TestfileData{
+		Name:      name,
+		Adjective: adjective,
+	})
+	if err != nil {
+		panic(err)
+	}
+	err = testfile.Generate()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
