@@ -1,4 +1,4 @@
-package pizza
+package mraziz
 
 import (
 	"embed"

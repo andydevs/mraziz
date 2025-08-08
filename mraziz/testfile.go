@@ -1,18 +1,15 @@
-package pizza
+package mraziz
 
 import (
 	"os"
 )
 
-type Person struct {
+type TestFile struct {
 	Name      string
 	Adjective string
 }
 
-func CreateTestFile(name string, adjective string) {
-	// Build data structure
-	person := Person{name, adjective}
-
+func (t *TestFile) CreateFile() {
 	// Get template
 	tmpl, err := GetEmbeddedTemplate("test")
 	if err != nil {
@@ -20,13 +17,14 @@ func CreateTestFile(name string, adjective string) {
 	}
 
 	// Open file for writing
-	outf, err := os.Create("test.txt")
+	outf, err := os.Create(".pizza/test.txt")
 	if err != nil {
 		panic(err)
 	}
 	defer outf.Close()
 
-	err = tmpl.Execute(outf, person)
+	// Write data to file
+	err = tmpl.Execute(outf, t)
 	if err != nil {
 		panic(err)
 	}

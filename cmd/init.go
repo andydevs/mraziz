@@ -4,7 +4,7 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/andydevs/mraziz/pizza"
+	"github.com/andydevs/mraziz/mraziz"
 	"github.com/spf13/cobra"
 )
 
@@ -17,12 +17,13 @@ var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize your new project",
 	Long:  `Creates a .pizza directory and run some initialization`,
-	Run: func(cmd *cobra.Command, args []string) {
-		// Create .pizza directory
+	Run:   executeInit,
+}
 
-		// Create test file
-		pizza.CreateTestFile(name, adjective)
-	},
+func executeInit(cmd *cobra.Command, args []string) {
+	mraziz.CreatePizzaDirectory()
+	test := mraziz.TestFile{Name: name, Adjective: adjective}
+	test.CreateFile()
 }
 
 func init() {
