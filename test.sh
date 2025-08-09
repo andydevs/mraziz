@@ -7,5 +7,5 @@ mkdir test-directory
 
 
 pushd test-directory
-mraziz init
+mraziz init ../test-template
 popd

@@ -4,6 +4,7 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"path"
 
@@ -13,6 +14,16 @@ import (
 
 func executeInit(cmd *cobra.Command, args []string) {
 	var err error
+
+	// Make sure we have correct args
+	if len(args) == 0 {
+		err = fmt.Errorf("please provide a template path or url")
+		panic(err)
+	}
+
+	// Print args
+	pathOrUrlArg := args[0]
+	fmt.Printf("Path/URL being used: %s\n", pathOrUrlArg)
 
 	// Get directory name for project
 	dir, err := os.Getwd()
@@ -25,6 +36,7 @@ func executeInit(cmd *cobra.Command, args []string) {
 	project := mraziz.ProjectData{
 		ProjectTitle:       dirname,
 		ProjectDescription: dirname,
+		ProjectTemplate:    pathOrUrlArg,
 	}
 
 	// Create pizza directory
