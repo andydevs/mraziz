@@ -1,0 +1,6 @@
+items:
+  - type: File
+    data:
+      filepath: README.md
+      template: README.md.tmpl
+      content: ReadmeData
