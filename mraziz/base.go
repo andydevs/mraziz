@@ -1,51 +1,22 @@
+/* Bootstrap projects with created template */
 package mraziz
 
-import (
-	"time"
-)
+/* Return base project configuration */
+func GetBasePizza() (*Directory, error) {
+	var err error
 
-type TestfileData struct {
-	TimeStamp string
-	Name      string
-	Adjective string
-}
-
-func getPizzaDirectory() *DirectoryType {
-	template := DirectoryType{
-		Path: ".pizza",
-	}
-	return &template
-}
-
-func getTestFile() (*FileType[TestfileData], error) {
-	tmpl, err := GetEmbeddedTemplate("test")
+	// Get test file template
+	test, err := GetTestFile()
 	if err != nil {
 		return nil, err
 	}
-	time := time.Now()
-	filetype := FileType[TestfileData]{
-		Template: tmpl,
-		Filepath: "test.txt",
-		Content: TestfileData{
-			TimeStamp: time.String(),
-			Name:      "Parker",
-			Adjective: "late",
-		},
-	}
-	return &filetype, nil
-}
 
-func GetBaseProject() (*DirectoryWithItemsType, error) {
-	baseDir := getPizzaDirectory()
-	template, err := getTestFile()
-	if err != nil {
-		return nil, err
+	// Get pizza directory
+	pizza := Directory{
+		Path:  ".pizza",
+		Items: []Generatable{test},
 	}
-	ditems := DirectoryWithItemsType{
-		Directory: *baseDir,
-		Items: []Generatable{
-			template,
-		},
-	}
-	return &ditems, nil
+
+	// Return directory
+	return &pizza, nil
 }

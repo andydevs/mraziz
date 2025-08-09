@@ -1,17 +1,19 @@
+/* Bootstrap projects with created template */
 package mraziz
 
+// Imports
 import (
 	"os"
 	"text/template"
 )
 
-type FileType[D any] struct {
+type File[D any] struct {
 	Template *template.Template
 	Filepath string
 	Content  D
 }
 
-func (t *FileType[D]) Generate() error {
+func (t *File[D]) Generate() error {
 	// Open file for writing
 	outf, err := os.Create(t.Filepath)
 	if err != nil {

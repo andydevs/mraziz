@@ -1,40 +1,39 @@
+/* Bootstrap projects with created template */
 package mraziz
 
+// Imports
 import "os"
 
-type DirectoryType struct {
-	Path string
+/* Generate a directory with included items */
+type Directory struct {
+	Path  string
+	Items []Generatable
 }
 
-func (t *DirectoryType) Generate() error {
-	err := os.Mkdir(t.Path, 0755)
-	return err
-}
-
-type DirectoryWithItemsType struct {
-	Directory DirectoryType
-	Items     []Generatable
-}
-
-func (t *DirectoryWithItemsType) Generate() error {
+/* Generate function for directory */
+func (t *Directory) Generate() error {
 	var err error
 
-	err = t.Directory.Generate()
-	if err != nil {
-		return err
-	}
-
+	// Get current directory to change back to
 	dir, err := os.Getwd()
 	if err != nil {
 		return err
 	}
 
-	err = os.Chdir(t.Directory.Path)
+	// Create directory
+	err = os.Mkdir(t.Path, 0755)
+	if err != nil {
+		return err
+	}
+
+	// Change into current directory (change back at end)
+	err = os.Chdir(t.Path)
 	if err != nil {
 		return err
 	}
 	defer os.Chdir(dir)
 
+	// Create items
 	for _, item := range t.Items {
 		err = item.Generate()
 		if err != nil {
@@ -42,5 +41,6 @@ func (t *DirectoryWithItemsType) Generate() error {
 		}
 	}
 
+	// End
 	return nil
 }
